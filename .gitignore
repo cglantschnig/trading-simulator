@@ -1,0 +1,3 @@
+.docker-conf
+node_modules
+.env

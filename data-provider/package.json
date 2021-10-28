@@ -1,0 +1,16 @@
+{
+  "name": "data-provider",
+  "version": "0.0.1",
+  "description": "provides random data for a trading platform",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Christopher Glantschnig",
+  "license": "ISC",
+  "dependencies": {
+    "node-cron": "^3.0.0",
+    "tortoise": "^1.0.1"
+  }
+}

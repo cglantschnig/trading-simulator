@@ -1,0 +1,52 @@
+version: "3.2"
+services:
+  data-provider:
+    depends_on:
+      - rabbitmq
+    build: data-provider/.
+    environment:
+      - RABBITMQ_CONNECTION_STRING=amqp://guest:guest@rabbitmq:5672/
+    networks:
+      - trading_net
+
+  data-processor:
+    depends_on:
+      - db
+      - rabbitmq
+    build: data-processor/.
+    environment:
+      - DATABASE_URL=postgresql://trading:trading@db:5432/trading?schema=public
+    ports:
+      - 8080:8080
+    networks:
+      - trading_net
+
+  db:
+    image: postgres:12
+    environment:
+      - POSTGRES_PASSWORD=trading
+      - POSTGRES_USER=trading
+      - POSTGRES_DB=trading
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.docker-conf/postgres:/var/lib/postgresql/data
+    networks:
+      - trading_net
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: "rabbitmq"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - trading_net
+
+networks:
+  trading_net:
+    driver: bridge
