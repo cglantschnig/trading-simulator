@@ -8,6 +8,8 @@ const RABBITMQ_QUEUE_NAME = 'trading-queue'
 
 const tortoise = new Tortoise(RABBITMQ_CONNECTION_STRING)
 
+console.info('listening for new trending data')
+
 tortoise
   .queue(RABBITMQ_QUEUE_NAME, { durable: false })
   .exchange(RABBITMQ_EXCHANGE_NAME, 'direct', RABBITMQ_PUBLISH_KEY, { durable: false })

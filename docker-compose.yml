@@ -15,9 +15,21 @@ services:
       - rabbitmq
     build: data-processor/.
     environment:
+      - RABBITMQ_CONNECTION_STRING=amqp://guest:guest@rabbitmq:5672/
       - DATABASE_URL=postgresql://trading:trading@db:5432/trading?schema=public
     ports:
       - 8080:8080
+    networks:
+      - trading_net
+
+  nginx-react:
+    depends_on:
+      - data-processor
+    build: trading-ui/.
+    ports:
+      - 80:80
+    environment:
+      NODE_ENV: production
     networks:
       - trading_net
 
