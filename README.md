@@ -12,4 +12,4 @@ Make sure to install Docker and Docker Compose on your machine. Then you can sim
 
     docker-compose up
 
-and visit localhost in your browser
+and visit `localhost` in your browser
